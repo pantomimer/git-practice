@@ -9,23 +9,27 @@
   		<h2>Book detail</h2>
   		<table class="table">
   		  <tbody><tr>
-          <td><a href="/users/133084">
+          <td>
             <%= link_to(user_path(@book_detail.user)) do %>
               <%= image_tag @book_detail.user.get_profile_image(100,100) %>
               <%= @book_detail.user.name %>
-</a>          </td>
+            <% end %>
+
+          </td>
           <td><%=link_to @book_detail.title, book_path(@book_detail.id) %></td>
           <td><%= @book_detail.body %></td>
             <td>
-              <%=link_to "Edit", edit_book_path(@book_detail.id), class:"btn btn-sm btn-success" %>
+              <% if @book_detail.user == current_user %>
+                <%=link_to "Edit", edit_book_path(@book_detail.id), class:"btn btn-sm btn-success" %>
+              <% end %>
             </td>
             <td>
-              <%=link_to "Destroy", book_path(@book_detail.id), method: :delete, class:"btn btn-sm btn-danger", "data-confirm" => "本当に消しますか？" %>
-
+              <% if @book_detail.user == current_user %>
+                <%=link_to "Destroy", book_path(@book_detail.id), method: :delete, class:"btn btn-sm btn-danger", "data-confirm" => "本当に消しますか？" %>
+              <% end %>
             </td>
         </tr>
       </tbody></table>
-    <% end %>
 
     </div>
   </div>
