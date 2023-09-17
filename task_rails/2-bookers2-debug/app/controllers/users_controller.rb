@@ -7,6 +7,24 @@ class UsersController < ApplicationController
     @book = Book.new
     @following_users = @user.following_users
     @follower_users = @user.follower_users
+    @today_book =  @books.created_today
+    @yesterday_book = @books.created_yesterday
+    @the_day_before =   @today_book.count / @yesterday_book.count.to_f #小数点で出す
+    @this_week_book = @books.created_this_week
+    @last_week_book = @books.created_last_week
+    @the_week_before = @this_week_book.count / @last_week_book.count.to_f #小数点で出す
+    # 配列を用意して冊数を入れていく
+    @read_nums = {}
+    (0..6).reverse_each do |num|
+      if num == 0
+        num_str = "今日"
+      else
+        num_str = num.to_s + "日前"
+      end
+
+      @read_nums[num_str] = @books.where(created_at: num.day.ago.all_day).count
+    end
+
   end
 
   def index
